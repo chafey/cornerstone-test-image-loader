@@ -9,6 +9,8 @@ a server (for development and example use cases).  A better option that base 64 
 is to serve up the DICOM P10 via HTTP server and load it using the
 [cornerstoneWADOImageLoader](https://github.com/chafey/cornerstoneWADOImageLoader)
 
+View the examples for this repository [here](http://chafey.github.io/cornerstone-test-image-loader/)
+
 Image Loaders
 -------------
 
@@ -50,3 +52,38 @@ Generates a 256x256 image with a grayscale ramp based on the specified parameter
 * ramp://512,512,16,0.5,0.5,1.0,-1024 - Generates a 512x512x2 image with a grayscale ramp covering 0-65535 values and pixel spacing 0.5/0.5, slope = 1.0, intercept -1024
 
 
+Build System
+============
+
+This project uses grunt to build the software.
+
+Pre-requisites:
+---------------
+
+NodeJs - [click to visit web site for installation instructions](http://nodejs.org).
+
+grunt-cli
+
+> npm install -g grunt-cli
+
+bower
+
+> npm install -g bower
+
+Common Tasks
+------------
+
+Update dependencies (after each pull):
+> npm install
+
+> bower install
+
+Running the build:
+> grunt
+
+Automatically running the build and unit tests after each source change:
+> grunt watch
+
+The build will generate the library output in /dist and the output for the live examples in
+../cornerstone-test-image-loader-build.  The example output is committed to the gh-pages
+branch so it can be viewed properly in github pages

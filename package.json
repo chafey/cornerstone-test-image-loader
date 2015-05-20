@@ -1,6 +1,6 @@
 {
   "name": "cornerstone-test-image-loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "HTML5 Medical Image Viewer Component",
   "keywords": [
     "DICOM",

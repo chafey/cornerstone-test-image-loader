@@ -26,7 +26,8 @@ module.exports = function(grunt) {
                     'bower_components/jquery/dist/jquery.min.map',
                     'bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'bower_components/cornerstone/dist/cornerstone.min.js',
-                    'bower_components/cornerstone/dist/cornerstone.js'
+                    'bower_components/cornerstoneTools/dist/cornerstoneTools.min.js',
+                    'bower_components/cornerstoneMath/dist/cornerstoneMath.min.js',
                 ],
                 dest: '../cornerstone-test-image-loader-build/bower/js',
                 expand: true,

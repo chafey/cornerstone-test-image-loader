@@ -1,6 +1,6 @@
 {
   "name": "cornerstone-test-image-loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cornerstone Test Image Loader",
   "main" : "dist/cornerstoneTestImageLoader.js",
   "ignore": [
@@ -18,7 +18,8 @@
     "jquery" : "~2.1.1"
   },
   "devDependencies": {
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "cornerstoneTools": "~0.6.2"
   },
   "license": "MIT",
   "authors" : ["Chris Hafey"],

@@ -8,6 +8,7 @@
     <SCRIPT src="bower/js/cornerstoneTools.min.js"></SCRIPT>
     <SCRIPT src="cornerstoneTestImageLoader.js"></SCRIPT>
     <link href="bower/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower/css/cornerstone.min.css" rel="stylesheet">
     <style>
         .image-thumbnail {
             width:256px;
@@ -41,7 +42,12 @@
         <button type="submit" class="btn btn-default">Generate</button>
     </form>
 
-    <DIV id="image1" class="cornerstone-enabled-image image-thumbnail"></DIV>
+    <DIV id="image1" class="cornerstone-enabled-image image-thumbnail"
+         oncontextmenu="return false"
+         unselectable='on'
+         onselectstart='return false;'
+         onmousedown='return false;'>
+    </DIV>
 </div>
 </BODY>
 <SCRIPT>
@@ -64,9 +70,13 @@
         };
         cornerstone.disable(element);
         cornerstone.enable(element);
-        cornerstoneTools.mouseWheelInput.enable(element);
         cornerstone.loadImage(imageIds[0]).then(function(image) {
             cornerstone.displayImage(element, image);
+            cornerstoneTools.mouseInput.enable(element);
+            cornerstoneTools.mouseWheelInput.enable(element);
+            cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+            cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+            cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
             cornerstoneTools.addStackStateManager(element, ['stack']);
             cornerstoneTools.addToolState(element, 'stack', stack);
             cornerstoneTools.stackScrollWheel.activate(element);

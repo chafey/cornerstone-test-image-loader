@@ -1,4 +1,4 @@
-/*! cornerstone-test-image-loader - v0.0.1 - 2015-05-20 | (c) 2015 Chris Hafey | https://github.com/chafey/cornerstone-test-image-loader */
+/*! cornerstone-test-image-loader - v0.1.0 - 2015-05-20 | (c) 2015 Chris Hafey | https://github.com/chafey/cornerstone-test-image-loader */
 // WARNING: This image loader base 64 encodes the pixel data so cornerstone can view images without requiring
 // a server (for development and example use cases).  A better option that base 64 encoding your pixel data
 // is to serve up the DICOM P10 via HTTP server and load it using the cornerstoneWADOImageLoader here:
@@ -249,6 +249,46 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
 
     // register our imageLoader plugin with cornerstone
     cs.registerImageLoader('ctexample', getExampleImage);
+    return ctil;
+
+}(cornerstone, cornerstoneTestImageLoader));
+
+var cornerstoneTestImageLoader = (function (cs, ctil) {
+
+    "use strict";
+
+    if(ctil === undefined) {
+        ctil = {};
+    }
+
+    // returns an array of imageId's that will produce images using the string image loader
+    // with the image number embedded in the image.
+    // Parameters:
+    //   end - the last image number in the range to generate (required)
+    //   start - the first image number in the range to generate (default is 1)
+    //   prefix - the prefix string (default is '')
+    //   suffix - the suffix string (default is '')
+    function generateStringStack(end, start, prefix, suffix) {
+        if(!end || isNaN(parseInt(end))) {
+            throw new Error('generateStringStack - end parameter is required and must be a number');
+        }
+        if(start && isNaN(parseInt(start))) {
+            throw new Error('generateStringStack - start parameter was specified but is not a number');
+        }
+
+        start = start || 1;
+        prefix = prefix || '';
+        suffix = suffix || '';
+        var imageIds = [];
+        for(var i=start; i <= end; i++) {
+            var imageId = "string://" + prefix + i + suffix;
+            imageIds.push(imageId);
+        }
+        return imageIds;
+    }
+
+    ctil.generateStringStack = generateStringStack;
+
     return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

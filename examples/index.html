@@ -2,40 +2,26 @@
 <HTML>
 <HEAD>
     <TITLE>cornerstone-test-image-loader</TITLE>
-    <SCRIPT src="bower/js/jquery.min.js"></SCRIPT>
-    <SCRIPT src="bower/js/cornerstone.min.js"></SCRIPT>
-    <SCRIPT src="cornerstoneTestImageLoader.js"></SCRIPT>
     <link href="bower/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .image-thumbnail {
-            width:128px;
-            height:128px
-        }
-    </style>
 </HEAD>
 <BODY>
-<h1>ctexample://1</h1>
-<DIV id="ctImage" class="cornerstone-enabled-image image-thumbnail"></DIV>
-<h1>example://1</h1>
-<DIV id="mrImage108" class="cornerstone-enabled-image image-thumbnail"></DIV>
-<h1>example://2</h1>
-<DIV id="mrImage109" class="cornerstone-enabled-image image-thumbnail"></DIV>
+
+<div class="container">
+    <h1>
+        Cornerstone Test Image Loader Examples
+    </h1>
+
+    <strong>The following examples should work on any browser that supports the HTML5 canvas element.  We currently
+        recommend using Chrome for development and the best end user experience.</strong>
+    <br>
+    <br>
+
+    <ul>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="string.html">String</a></li>
+        <li><a href="ramp.html">Ramp</a></li>
+    </ul>
+</div>
+
 </BODY>
-<SCRIPT>
-
-    function initImage(id, imageId) {
-        var element = document.getElementById(id);
-        cornerstone.enable(element);
-        cornerstone.loadImage(imageId).then(function(image) {
-            cornerstone.displayImage(element, image);
-        });
-    }
-
-    $(document).ready(function() {
-        initImage('ctImage', 'ctexample://1');
-        initImage('mrImage108', 'example://1');
-        initImage('mrImage109', 'example://2');
-    });
-
-</SCRIPT>
 </HTML>

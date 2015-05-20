@@ -1,4 +1,4 @@
-/*! cornerstone-test-image-loader - v0.0.1 - 2015-05-18 | (c) 2015 Chris Hafey | https://github.com/chafey/cornerstone-test-image-loader */
+/*! cornerstone-test-image-loader - v0.0.1 - 2015-05-20 | (c) 2015 Chris Hafey | https://github.com/chafey/cornerstone-test-image-loader */
 // WARNING: This image loader base 64 encodes the pixel data so cornerstone can view images without requiring
 // a server (for development and example use cases).  A better option that base 64 encoding your pixel data
 // is to serve up the DICOM P10 via HTTP server and load it using the cornerstoneWADOImageLoader here:
@@ -96,6 +96,37 @@ var cornerstoneTestImageLoader = (function (ctil) {
     return ctil;
 
 } (cornerstoneTestImageLoader));
+
+var cornerstoneTestImageLoader = (function (cs, ctil) {
+
+    "use strict";
+
+    if(ctil === undefined) {
+        ctil = {};
+    }
+
+    // converts the contents of a canvas element to grayscale Uint8Array based on luminance
+    // including the alpha channel
+    function canvasToUint8Array(context) {
+        var canvas = context.canvas;
+        var arrayBuffer = new ArrayBuffer(canvas.width * canvas.height);
+        var pixelData = new Uint8Array(arrayBuffer);
+
+        var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        var pixels = imageData.data;
+        for(var i= 0, j=0; i < pixels.length; i+=4, j++) {
+            var luminance = ((pixels[i] + pixels[i+1] + pixels[i+2]) / 3) * pixels[i+3] / 256;
+            pixelData[j] = luminance;
+        }
+
+        return pixelData;
+    }
+
+    ctil.canvasToUint8Array = canvasToUint8Array;
+
+    return ctil;
+
+}(cornerstone, cornerstoneTestImageLoader));
 // WARNING: This image loader base 64 encodes the pixel data so cornerstone can view images without requiring
 // a server (for development and example use cases).  A better option that base 64 encoding your pixel data
 // is to serve up the DICOM P10 via HTTP server and load it using the cornerstoneWADOImageLoader here:
@@ -218,6 +249,202 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
 
     // register our imageLoader plugin with cornerstone
     cs.registerImageLoader('ctexample', getExampleImage);
+    return ctil;
+
+}(cornerstone, cornerstoneTestImageLoader));
+var cornerstoneTestImageLoader = (function (cs, ctil) {
+
+    "use strict";
+
+    if(ctil === undefined) {
+        ctil = {};
+    }
+
+    function getParam(param, defaultValue) {
+        var num = parseFloat(param);
+        if(isNaN(num)) {
+            return defaultValue;
+        }
+        return num;
+    }
+
+    function getImage(imageId) {
+
+        var str = imageId.substring(7);
+        var params = str.split(',');
+        var width = getParam(params[0], 256);
+        var height = getParam(params[1], 256);
+        var bitsStored = getParam(params[2], 8);
+        var columnPixelSpacing = getParam(params[3], 1.0);
+        var rowPixelSpacing = getParam(params[4], 1.0);
+        var slope = getParam(params[5], 1.0);
+        var intercept = getParam(params[6], 0.0);
+
+        var bytesPerPixel = 1;
+        if(bitsStored < 1 || bitsStored >16) {
+            console.log("cannot generate ramp image with bitsStored " + bitsStored);
+            bitsStored = 8;
+        }
+        if(bitsStored > 8) {
+            bytesPerPixel = 2;
+        }
+
+        var maxStoredValue = (1 << bitsStored);
+        var step = maxStoredValue / width;
+
+        function getPixelData()
+        {
+            var arrayBuffer = new ArrayBuffer(width * height * bytesPerPixel);
+            var pixelData;
+            if(bytesPerPixel === 1) {
+                pixelData = new Uint8Array(arrayBuffer);
+            } else {
+                pixelData = new Uint16Array(arrayBuffer);
+            }
+            var i=0;
+            for(var y=0; y < height; y++) {
+                for(var x=0; x < width; x++) {
+                    pixelData[i++] = x * step;
+                }
+            }
+            return pixelData;
+        }
+
+        var minValue = 0 * slope + intercept;
+        var maxValue = (maxStoredValue-1) * slope + intercept;
+
+        var image = {
+            imageId: imageId,
+            minPixelValue : 0,
+            maxPixelValue : maxStoredValue -1,
+            slope: slope,
+            intercept: intercept,
+            windowCenter : (minValue + maxValue) / 2,
+            windowWidth : (maxValue - minValue),
+            render: cs.renderGrayscaleImage,
+            getPixelData: getPixelData,
+            rows: height,
+            columns: width,
+            height: height,
+            width: width,
+            color: false,
+            columnPixelSpacing: columnPixelSpacing,
+            rowPixelSpacing: rowPixelSpacing,
+            sizeInBytes: width * height * bytesPerPixel
+        };
+
+        var deferred = $.Deferred();
+        deferred.resolve(image);
+        return deferred;
+    }
+
+
+    // register our imageLoader plugin with cornerstone
+    cs.registerImageLoader('ramp', getImage);
+    return ctil;
+
+}(cornerstone, cornerstoneTestImageLoader));
+
+var cornerstoneTestImageLoader = (function (cs, ctil) {
+
+    "use strict";
+
+    if(ctil === undefined) {
+        ctil = {};
+    }
+
+    var canvas;
+
+    function getImage(imageId) {
+
+        var width = 256;
+        var height = 256;
+        var bytesPerPixel = 1;
+
+        function getPixelData()
+        {
+            if(!canvas) {
+                canvas = document.createElement('canvas');
+            }
+
+            var context = canvas.getContext('2d');
+
+            canvas.width = width;
+            canvas.height = height;
+
+            context.fillStyle='white';
+            context.font = "24px Arial";
+            var text = imageId.substring(9);
+            ctil.wrapText(context, text, 5, 24, width, 20);
+
+            return ctil.canvasToUint8Array(context);
+        }
+
+        var image = {
+            imageId: imageId,
+            minPixelValue : 0,
+            maxPixelValue : 255,
+            slope: 1.0,
+            intercept: 0,
+            windowCenter : 127,
+            windowWidth : 256,
+            render: cs.renderGrayscaleImage,
+            getPixelData: getPixelData,
+            rows: height,
+            columns: width,
+            height: height,
+            width: width,
+            color: false,
+            columnPixelSpacing: .8984375,
+            rowPixelSpacing: .8984375,
+            sizeInBytes: width * height * bytesPerPixel
+        };
+
+        var deferred = $.Deferred();
+        deferred.resolve(image);
+        return deferred;
+    }
+
+
+    // register our imageLoader plugin with cornerstone
+    cs.registerImageLoader('string', getImage);
+    return ctil;
+
+}(cornerstone, cornerstoneTestImageLoader));
+
+var cornerstoneTestImageLoader = (function (cs, ctil) {
+
+    "use strict";
+
+    if (ctil === undefined) {
+        ctil = {};
+    }
+
+    var canvas;
+
+    // function to draw text to a canvas with word wrap
+    // ripped from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+
+        for (var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' ';
+            var metrics = context.measureText(testLine);
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+                context.fillText(line, x, y);
+                line = words[n] + ' ';
+                y += lineHeight;
+            }
+            else {
+                line = testLine;
+            }
+        }
+        context.fillText(line, x, y);
+    }
+
+    ctil.wrapText = wrapText;
     return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

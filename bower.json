@@ -1,11 +1,11 @@
 {
   "name": "cornerstone-test-image-loader",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cornerstone Test Image Loader",
   "main" : "dist/cornerstoneTestImageLoader.js",
   "ignore": [
     "docs",
-    "example",
+    "examples",
     "src",
     "test",
     "gruntfile.js",

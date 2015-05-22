@@ -1,10 +1,6 @@
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
-
-    if(ctil === undefined) {
-        ctil = {};
-    }
 
     function getParam(param, defaultValue) {
         var num = parseFloat(param);
@@ -87,6 +83,5 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
 
     // register our imageLoader plugin with cornerstone
     cs.registerImageLoader('ramp', getImage);
-    return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

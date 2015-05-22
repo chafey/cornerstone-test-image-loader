@@ -3,13 +3,9 @@
 // is to serve up the DICOM P10 via HTTP server and load it using the cornerstoneWADOImageLoader here:
 // https://github.com/chafey/cornerstoneWADOImageLoader
 
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
-
-    if(ctil === undefined) {
-        ctil = {};
-    }
 
     var image1PixelData = ctil.getPixelData(ctil.base64Images.ctimage);
 
@@ -54,6 +50,5 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
 
     // register our imageLoader plugin with cornerstone
     cs.registerImageLoader('ctexample', getExampleImage);
-    return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

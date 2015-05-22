@@ -1,11 +1,7 @@
 
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
-
-    if(ctil === undefined) {
-        ctil = {};
-    }
 
     // returns an array of imageId's that will produce images using the string image loader
     // with the image number embedded in the image.
@@ -34,7 +30,5 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
     }
 
     ctil.generateStringStack = generateStringStack;
-
-    return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

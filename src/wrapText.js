@@ -1,13 +1,8 @@
 
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
 
-    if (ctil === undefined) {
-        ctil = {};
-    }
-
-    var canvas;
 
     // function to draw text to a canvas with word wrap
     // ripped from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
@@ -32,6 +27,5 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
     }
 
     ctil.wrapText = wrapText;
-    return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

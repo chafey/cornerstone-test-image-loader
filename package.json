@@ -1,18 +1,18 @@
 {
   "name": "cornerstone-test-image-loader",
-  "version": "0.1.0",
-  "description": "HTML5 Medical Image Viewer Component",
+  "version": "0.2.0",
+  "description": "Cornerstone Test Image Loader",
   "keywords": [
     "DICOM",
     "medical",
     "imaging"
   ],
   "author": "Chris Hafey",
-  "homepage": "https://github.com/chafey/cornerstone",
+  "homepage": "https://github.com/chafey/cornerstone-test-image-loader",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chafey/cornerstone.git"
+    "url": "https://github.com/chafey/cornerstone-test-image-loader.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

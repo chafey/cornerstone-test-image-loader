@@ -1,11 +1,7 @@
 
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
-
-    if(ctil === undefined) {
-        ctil = {};
-    }
 
     // converts the contents of a canvas element to grayscale Uint8Array based on luminance
     // including the alpha channel
@@ -25,7 +21,5 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
     }
 
     ctil.canvasToUint8Array = canvasToUint8Array;
-
-    return ctil;
 
 }(cornerstone, cornerstoneTestImageLoader));

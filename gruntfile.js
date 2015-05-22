@@ -6,7 +6,8 @@ module.exports = function(grunt) {
         clean: {
             default: {
                 src: [
-                    '../cornerstone-test-image-loader-build'
+                    '../cornerstone-test-image-loader-build/*',
+                    '!../cornerstone-test-image-loader-build/.git'
                 ]
             }
         },
@@ -56,13 +57,19 @@ module.exports = function(grunt) {
                 dest: '../cornerstone-test-image-loader-build/',
                 expand: true,
                 flatten: true
+            },
+            assets: {
+                src: [
+                    'assets/*',
+                ],
+                dest: '../cornerstone-test-image-loader-build/assets',
+                expand: true,
+                flatten: true
             }
-
-
         },
         concat: {
             build: {
-                src : ['src/base64Images/*.js', 'src/*.js'],
+                src : ['src/header.js', 'src/base64Images/*.js', 'src/*.js'],
                 dest: 'build/built.js'
             },
             dist: {

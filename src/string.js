@@ -1,11 +1,7 @@
 
-var cornerstoneTestImageLoader = (function (cs, ctil) {
+(function (cs, ctil) {
 
     "use strict";
-
-    if(ctil === undefined) {
-        ctil = {};
-    }
 
     var canvas;
 
@@ -59,9 +55,6 @@ var cornerstoneTestImageLoader = (function (cs, ctil) {
         return deferred;
     }
 
-
     // register our imageLoader plugin with cornerstone
     cs.registerImageLoader('string', getImage);
-    return ctil;
-
 }(cornerstone, cornerstoneTestImageLoader));
